@@ -250,15 +250,33 @@ run_pmodel_f_bysite <- function(
       if (params_siml$soilmstress){
         if (any(is.nanull(params_modl$soilm_par_a), 
                 is.nanull(params_modl$soilm_par_b))){
-          warning("Error: Missing soilm_par_a and soilm_par_b parameters but soilmstress = TRUE.")
+          warning("Error: Missing soilm_par_a and/or soilm_par_b parameters but soilmstress = TRUE.")
           continue <- FALSE
         } 
+      } else {
+        if(verbose){
+          if(!is.nanull(params_modl$soilm_par_a)){
+            warning("Warning: Parameter soilm_par_a is not used in the simulation.")
+          }
+          if(!is.nanull(params_modl$soilm_par_b)){
+            warning("Warning: Parameter soilm_par_b is not used in the simulation.")
+          }
+        }
       }
       if(params_siml$tempstress){
         if (any(is.nanull(params_modl$tau_acclim_tempstress),
                 is.nanull(params_modl$par_shape_tempstress))){
-          warning("Error: Missing tau and shape parameters but tempstress = TRUE.")
+          warning("Error: Missing tau_acclim_tempstress and/or par_shape_tempstress parameters but tempstress = TRUE.")
           continue <- FALSE
+        }
+      } else {
+        if(verbose){
+          if(!is.nanull(params_modl$tau_acclim_tempstress)){
+            warning("Warning: Parameter tau_acclim_tempstress is not used in the simulation.")
+          }
+          if(!is.nanull(params_modl$par_shape_tempstress)){
+            warning("Warning: Parameter par_shape_tempstress is not used in the simulation.")
+          }
         }
       }
     }
