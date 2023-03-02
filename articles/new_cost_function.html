@@ -140,8 +140,8 @@ setups in Stocker et al., 2020 GMD. For example, following the
 <code>FULL</code> setup, we can calibrate parameters <code>kphio</code>,
 <code>soilm_par_a</code> and <code>soilm_par_b</code>. We must always
 specify which values the fixed parameters should take, i.e. the
-parameters that aren’t calibrated, and also the optimization method, in
-this case <code>GenSA</code>.</p>
+parameters that aren’t calibrated, the optimization method, in this case
+<code>GenSA</code>, and also the target variable.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Set parameter values</span></span>
 <span><span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -156,7 +156,8 @@ this case <code>GenSA</code>.</p>
 <span><span class="va">cost_rmse_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_cost_rmse_pmodel.html">create_cost_rmse_pmodel</a></span><span class="op">(</span></span>
 <span>  params_modl <span class="op">=</span> <span class="va">pars</span>,</span>
 <span>  setup <span class="op">=</span> <span class="st">'FULL'</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">'GenSA'</span></span>
+<span>  method <span class="op">=</span> <span class="st">'GenSA'</span>,</span>
+<span>  target <span class="op">=</span> <span class="st">'gpp'</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Note that, for now, only GPP is used as a target variable for the
 simulation and calibration of the P-model. Each cost function should be

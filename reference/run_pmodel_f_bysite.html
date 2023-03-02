@@ -153,10 +153,12 @@
 <dd><p>A logical value, <code>TRUE</code> if grass with C4 photosynthetic pathway.</p></dd>
 
       <dt>firstyeartrend</dt>
-<dd><p>The year AD of first transient year.</p></dd>
+<dd><p>The year AD of first transient year, overwritten
+      to match the first year of forcing data.</p></dd>
 
       <dt>nyeartrend</dt>
-<dd><p>The number of transient years.</p></dd>
+<dd><p>The number of transient years, overwritten to match the
+      number of forcing years available.</p></dd>
 
 
 </dl></dd>
@@ -182,7 +184,7 @@
 
 <dt>forcing</dt>
 <dd><p>A data frame of forcing climate data, used as input 
-(returned object by <code><a href="collect_drivers_sofun.html">collect_drivers_sofun</a></code>, see <code><a href="p_model_drivers.html">p_model_drivers</a></code>
+(returned object by <code>collect_drivers_sofun</code>, see <code><a href="p_model_drivers.html">p_model_drivers</a></code>
 for a detailed description of its structure and contents).</p></dd>
 
 

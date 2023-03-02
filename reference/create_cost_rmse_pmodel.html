@@ -86,7 +86,7 @@ computes the root mean squared error (RMSE) on the calibrated parameters.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_cost_rmse_pmodel</span><span class="op">(</span><span class="va">params_modl</span>, <span class="va">setup</span>, <span class="va">method</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_cost_rmse_pmodel</span><span class="op">(</span><span class="va">params_modl</span>, <span class="va">setup</span>, <span class="va">method</span>, <span class="va">target</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -108,6 +108,12 @@ for calibration.</p></dd>
 <dt>method</dt>
 <dd><p>A character string indicating the optimization method that will
 be used, either <code>'BayesianTools'</code> or <code>'GenSA'</code>.</p></dd>
+
+
+<dt>target</dt>
+<dd><p>A character string indicating the target variable for which the
+optimization will be done. This string must be a column name of the <code>data</code>
+data.frame belonging to the validation nested data.frame (for example 'gpp').</p></dd>
 
 </dl></div>
     <div id="value">
