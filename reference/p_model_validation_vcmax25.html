@@ -93,11 +93,11 @@ calibration routines for leaf traits.</p>
   <dt>data</dt>
 <dd><p>A tibble [ 1 x 2 ] with observations for the following variables:</p><dl><dt>vcmax25</dt>
 <dd><p>The observed maximum rate of carboxylation (Vcmax), normalised 
-    to 25$^o$ C (in mol C m^-2 d^-1), aggregated over different plant species
+    to 25\(^o\) C (in mol C m\(^{-2}\) d\(^{-1}\)), aggregated over different plant species
     in each site.</p></dd>
 
       <dt>vcmax25_unc</dt>
-<dd><p>The uncertainty of the Vcmax25 (in mol C m^-2 d^-1).</p></dd>
+<dd><p>The uncertainty of the Vcmax25 (in mol C m\(^{-2}\) d\(^{-1}\)).</p></dd>
 
     
 </dl><p></p></dd>
@@ -106,9 +106,9 @@ calibration routines for leaf traits.</p>
 </dl></div>
     <div id="source">
     <h2>Source</h2>
-    <p>Pastorello, G., Trotta, C., Canfora, E. et al. 
-The FLUXNET2015 dataset and the ONEFlux processing pipeline for eddy covariance data. 
-Sci Data 7, 225 (2020). https://doi.org/10.1038/s41597-020-0534-3</p>
+    <p>Atkin, O. K., Bloomfield, K. J., Reich, P. B., Tjoelker, M. G., Asner, G. P., Bonal, D., et al. (2015). 
+Global variability in leaf respiration in relation to climate, plant functional types and leaf traits. 
+New Phytol. 206 (2), 614–636. doi:10.1111/nph.13253</p>
     </div>
 
     <div id="ref-examples">
@@ -119,16 +119,16 @@ Sci Data 7, 225 (2020). https://doi.org/10.1038/s41597-020-0534-3</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   sitename [72]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    sitename            vcmax25 vcmax25_unc</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 10?28'N_84?02'W   28<span style="text-decoration: underline;">700</span>000    15<span style="text-decoration: underline;">396</span>704.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 40?47'N_77?53'W   12<span style="text-decoration: underline;">400</span>000    15<span style="text-decoration: underline;">396</span>704.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 40?48'N_77?50'W   20<span style="text-decoration: underline;">400</span>000     9<span style="text-decoration: underline;">475</span>231.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 8?39'N__71?24'W   18<span style="text-decoration: underline;">600</span>000    15<span style="text-decoration: underline;">396</span>704.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 9?10'N__79?51'W   43<span style="text-decoration: underline;">400</span>000    15<span style="text-decoration: underline;">396</span>704.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> ALP-01            24<span style="text-decoration: underline;">205</span>882.   14<span style="text-decoration: underline;">401</span>973.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> ALP-30            22<span style="text-decoration: underline;">172</span>727.   10<span style="text-decoration: underline;">147</span>727.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> ALP-40            25<span style="text-decoration: underline;">628</span>571.   10<span style="text-decoration: underline;">367</span>807.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> ANBG              44<span style="text-decoration: underline;">000</span>000    20<span style="text-decoration: underline;">372</span>531.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Alto Tajo NP_Arid 51<span style="text-decoration: underline;">800</span>000    15<span style="text-decoration: underline;">396</span>704.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 10?28'N_84?02'W   0.000<span style="text-decoration: underline;">028</span>7  0.000<span style="text-decoration: underline;">015</span>4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 40?47'N_77?53'W   0.000<span style="text-decoration: underline;">012</span>4  0.000<span style="text-decoration: underline;">015</span>4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 40?48'N_77?50'W   0.000<span style="text-decoration: underline;">020</span>4  0.000<span style="text-decoration: underline;">009</span>48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 8?39'N__71?24'W   0.000<span style="text-decoration: underline;">018</span>6  0.000<span style="text-decoration: underline;">015</span>4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 9?10'N__79?51'W   0.000<span style="text-decoration: underline;">043</span>4  0.000<span style="text-decoration: underline;">015</span>4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> ALP-01            0.000<span style="text-decoration: underline;">024</span>2  0.000<span style="text-decoration: underline;">014</span>4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> ALP-30            0.000<span style="text-decoration: underline;">022</span>2  0.000<span style="text-decoration: underline;">010</span>1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> ALP-40            0.000<span style="text-decoration: underline;">025</span>6  0.000<span style="text-decoration: underline;">010</span>4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> ANBG              0.000<span style="text-decoration: underline;">044</span>   0.000<span style="text-decoration: underline;">020</span>4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Alto Tajo NP_Arid 0.000<span style="text-decoration: underline;">051</span>8  0.000<span style="text-decoration: underline;">015</span>4 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 62 more rows</span></span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span> </span></span>

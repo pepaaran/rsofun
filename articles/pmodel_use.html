@@ -145,6 +145,14 @@ found in the reference pages of <code>p_model_drivers</code> and
 <code>p_model_validation</code>. We can use these data to run the model,
 together with observations of GPP we can also parameterize
 <code>pmodel</code> parameters.</p>
+<p>Another two datasets are provided as an example to validate the model
+against leaf traits data, rather than fluxes. Measurements of Vcmax25
+(aggregated over species) for 72 sites from Atkin et al. 2015 are given
+in <code>p_model_validation_vcmax25</code> and the corresponding forcing
+for the pmodel is given in <code>p_model_drivers_vcmax25</code>. Since
+leaf traits are only measured once per site, the forcing used is a
+single year of average climate (the average measurements between 2001
+and 2015 on each day of the year).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p_model_drivers_vcmax25</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 72 × 5</span></span></span>
@@ -178,21 +186,14 @@ together with observations of GPP we can also parameterize
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> ANBG              <span style="color: #949494;">&lt;tibble [1 × 2]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Alto Tajo NP_Arid <span style="color: #949494;">&lt;tibble [1 × 2]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 62 more rows</span></span></span></code></pre></div>
-<p>Another two datasets are provided as an example to validate the model
-against leaf traits data, rather than fluxes. Measurements of Vcmax25
-(aggregated over species) for several sites from Atkin et al. 2015 are
-given in <code>p_model_validation_vcmax25</code> and the corresponding
-forcing for the pmodel is given in <code>p_model_drivers_vcmax25</code>.
-Since leaf traits are only measured once per site, the forcing is a
-single year of average climate (for each day of the year).</p>
+<p>For the remainder of this vignette, we will use the flux datasets.
+The workflow is exactly the same for leaf traits data.</p>
 <p>To get your raw data into the structure used within
 <code>rsofun</code>, please see R packages <a href="https://github.com/geco-bern/ingestr" class="external-link">ingestr</a> and <a href="https://github.com/geco-bern/FluxDataKit" class="external-link">FluxDataKit</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="running-model">Running model<a class="anchor" aria-label="anchor" href="#running-model"></a>
 </h2>
-<p>For the remainder of this vignette, we will use the flux datasets.
-The workflow is exactly the same for leaf trait data.</p>
 <p>With all data prepared we can run the model using
 <code><a href="../reference/runread_pmodel_f.html">runread_pmodel_f()</a></code>. This function takes the nested data
 structure and runs the model site by site, returning nested model output

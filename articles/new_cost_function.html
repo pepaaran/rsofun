@@ -115,20 +115,23 @@
     
 <p>The <code>rsofun</code> package allows to calibrate parameters of the
 <code>pmodel</code> and <code>biomee</code> models via the
-<code><a href="../reference/calib_sofun.html">calib_sofun()</a></code> function and various cost functions. All cost
-functions must take three arguments:</p>
+<code><a href="../reference/calib_sofun.html">calib_sofun()</a></code> function and various cost functions. The
+package provides a set of functions named <code>create_cost_*</code>
+that can be used to generate some standard cost functions but the user
+can also write their own custom one. All cost functions must take three
+arguments:</p>
 <ul>
 <li><p><code>par</code>: A vector of calibratable model parameters. In
 each iteration of the optimization, a new set of values of
 <code>par</code> is used to run the model and compute the cost.</p></li>
 <li><p><code>obs</code>: A data frame of observations, against which to
-compare the simulationn results.</p></li>
+compare the simulation results.</p></li>
 <li><p><code>drivers</code>: A data frame of driver data, used to run
-the simulations. In this vignette, we go over some examples on how to
-use these cost functions for parameter calibration and how to write your
-own custom one, either using our standard framework or from
-scratch.</p></li>
+the simulations.</p></li>
 </ul>
+<p>In this vignette, we go over some examples on how to use these cost
+functions for parameter calibration and how to write your own custom
+one, either using our standard framework or from scratch.</p>
 <div class="section level3">
 <h3 id="calibration-using-rmse-on-gpp-and-gensa-optimizer">Calibration using RMSE on GPP and GenSA optimizer<a class="anchor" aria-label="anchor" href="#calibration-using-rmse-on-gpp-and-gensa-optimizer"></a>
 </h3>
@@ -141,7 +144,8 @@ setups in Stocker et al., 2020 GMD. For example, following the
 <code>soilm_par_a</code> and <code>soilm_par_b</code>. We must always
 specify which values the fixed parameters should take, i.e. the
 parameters that aren’t calibrated, the optimization method, in this case
-<code>GenSA</code>, and also the target variable.</p>
+<code>GenSA</code>, and also the target variable, here
+<code>'gpp'</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Set parameter values</span></span>
 <span><span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -155,13 +159,16 @@ parameters that aren’t calibrated, the optimization method, in this case
 <span><span class="co"># Create the cost function</span></span>
 <span><span class="va">cost_rmse_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_cost_rmse_pmodel.html">create_cost_rmse_pmodel</a></span><span class="op">(</span></span>
 <span>  params_modl <span class="op">=</span> <span class="va">pars</span>,</span>
-<span>  setup <span class="op">=</span> <span class="st">'FULL'</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">'GenSA'</span>,</span>
-<span>  target <span class="op">=</span> <span class="st">'gpp'</span></span>
+<span>  setup <span class="op">=</span> <span class="st">'FULL'</span>,      <span class="co"># calibrate kphio, soilm_par_a, soilm_par_b</span></span>
+<span>  method <span class="op">=</span> <span class="st">'GenSA'</span>,    <span class="co"># optimization method</span></span>
+<span>  target <span class="op">=</span> <span class="st">'gpp'</span>       <span class="co"># column name in dataframe</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Note that, for now, only GPP is used as a target variable for the
-simulation and calibration of the P-model. Each cost function should be
-written for a specific set of target variables.</p>
+<p>We use GPP as a target variable for the calibration of the P-model.
+It is possible to use other variables in the output, like Vcmax (see
+<code><a href="../reference/run_pmodel_f_bysite.html">?run_pmodel_f_bysite</a></code> for documentation), as calibration
+targets and the validation data should use the same column name.
+Furthermore, the cost functions are specific to a set of target
+variables.</p>
 <p>Now we can run the calibration routine, as follows.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define calibration settings and parameter ranges from previous work</span></span>
@@ -195,12 +202,16 @@ see next).</p>
 <p>Let’s create a cost function to calibrate only the <code>kphio</code>
 parameter, taking a Bayesian estimation approach. By maximizing the
 normal log-likelihood, the MAP (maximum a posteriori) estimator for
-<code>kphio</code> is computed.</p>
+<code>kphio</code> is computed. This time we use Vcmax25 values for
+calibration, with a single value per site instead of a flux time series.
+Note that it wouldn’t make sense to do the <code>FULL</code> calibration
+setup because Vcmax25 does not appear in the soil moisture stress
+functions.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">likelihood_pmodel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_cost_likelihood_pmodel.html">create_cost_likelihood_pmodel</a></span><span class="op">(</span></span>
 <span>  params_modl <span class="op">=</span> <span class="va">pars</span>,  <span class="co"># reuse previous initial values</span></span>
 <span>  setup <span class="op">=</span> <span class="st">'BRC'</span>,       <span class="co"># calibrate only kphio</span></span>
-<span>  target <span class="op">=</span> <span class="st">'gpp'</span>       <span class="co"># same target name as column name in dataframe</span></span>
+<span>  target <span class="op">=</span> <span class="st">'vcmax25'</span>       <span class="co"># same target name as column name in dataframe</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>Note that, in the definition of the calibration settings, the control
 parameters differ from the ones used with <code>GenSA</code>. A uniform
@@ -218,15 +229,15 @@ limits.</p>
 <span>      iterations <span class="op">=</span> <span class="fl">1500</span></span>
 <span>    <span class="op">)</span><span class="op">)</span>,</span>
 <span>  par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    kphio <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>lower<span class="op">=</span><span class="fl">0.04</span>, upper<span class="op">=</span><span class="fl">0.2</span>, init<span class="op">=</span><span class="fl">0.05</span><span class="op">)</span></span>
+<span>    kphio <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>lower<span class="op">=</span><span class="fl">0.04</span>, upper<span class="op">=</span><span class="fl">0.2</span>, init<span class="op">=</span><span class="fl">0.05</span><span class="op">)</span>     <span class="co"># uniform prior</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Calibrate the model and optimize the free parameters using</span></span>
 <span><span class="co"># demo datasets</span></span>
 <span><span class="va">pars_calib_likelihood</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calib_sofun.html">calib_sofun</a></span><span class="op">(</span></span>
-<span>  drivers <span class="op">=</span> <span class="va">p_model_drivers</span>,</span>
-<span>  obs <span class="op">=</span> <span class="va">p_model_validation</span>,</span>
+<span>  drivers <span class="op">=</span> <span class="va">p_model_drivers</span><span class="op">-</span><span class="va">vcmax25</span>,</span>
+<span>  obs <span class="op">=</span> <span class="va">p_model_validation_vcmax25</span>,</span>
 <span>  settings <span class="op">=</span> <span class="va">settings_likelihood</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>There are equivalent cost functions available for the BiomeE model.
