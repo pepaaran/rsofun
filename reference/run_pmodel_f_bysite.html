@@ -51,6 +51,9 @@
     <li>
       <a href="../articles/prepare_forcing.html">Prepare forcing</a>
     </li>
+    <li>
+      <a href="../articles/sensitivity_analysis.html">Sensitivity analysis</a>
+    </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -113,8 +116,9 @@
       moisture stress function is applied to GPP.</p></dd>
 
       <dt>tempstress</dt>
-<dd><p>A logical value, if <code>TRUE</code> an empirical temperature 
-      stress function is applied to GPP.</p></dd>
+<dd><p>A logical value, if <code>FALSE</code> the quantum yield efficiency
+      is held constant, if <code>TRUE</code> its dependency on temperature is parameterised 
+      with an empirical temperature stress function (corresponding to Bernacchi et al., 2003).</p></dd>
 
       <dt>calc_aet_fapar_vpd</dt>
 <dd><p>(not in use)</p></dd>
@@ -204,20 +208,6 @@ layer of soil.</p><dl><dt>fsand</dt>
 
   <dt>soilm_par_a</dt>
 <dd><p>Intercept of the linear soil moisture stress function (unitless).</p></dd>
-
-  <dt>soilm_par_b</dt>
-<dd><p>Slope of the linear soil moisture stress function (unitless).</p></dd>
-
-  <dt>tau_acclim_tempstress</dt>
-<dd><p>Memory e-folding time scale parameter (in hours)
-  for acclimation of photosynthesis, following Eq. 5 in Makela et al. (2004) 
-  Tree Physiology 24, 369–376</p></dd>
-
-  <dt>par_shape_tempstress</dt>
-<dd><p>Shape parameter for the low temperature stress
-  function affecting quantum yield efficiency. A positive (unitless) value indicating 
-  the sensitivity of the decline (assuming no decline at 10\(^o\)C) and 
-  above, but decreasing with a quadratic function below 10\(^o\)C).</p></dd>
 
 
 </dl></dd>

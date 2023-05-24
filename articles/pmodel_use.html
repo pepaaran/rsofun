@@ -77,6 +77,9 @@
     <li>
       <a href="../articles/prepare_forcing.html">Prepare forcing</a>
     </li>
+    <li>
+      <a href="../articles/sensitivity_analysis.html">Sensitivity analysis</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -115,8 +118,8 @@ Pepa Aran</h4>
     
 <p>The <code>rsofun</code> package and framework includes two main
 models. The <code>pmodel</code> and <code>biomee</code> (which in part
-relies on pmodel components). Here we give a short example on how to run
-the <code>pmodel</code> on the included demo datasets to familiarize
+relies on P-model components). Here we give a short example on how to
+run the <code>pmodel</code> on the included demo datasets to familiarize
 yourself with both the data structure and the outputs.</p>
 <div class="section level2">
 <h2 id="demo-data">Demo data<a class="anchor" aria-label="anchor" href="#demo-data"></a>
@@ -135,7 +138,6 @@ your workspace by typing:</p>
 <span></span>
 <span><span class="va">p_model_validation</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   sitename [1]</span></span></span>
 <span><span class="co">#&gt;   sitename data                </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>              </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> FR-Pue   <span style="color: #949494;">&lt;tibble [2,920 × 3]&gt;</span></span></span></code></pre></div>
@@ -143,13 +145,13 @@ your workspace by typing:</p>
 about data structure, variable names, and their meaning and units can be
 found in the reference pages of <code>p_model_drivers</code> and
 <code>p_model_validation</code>. We can use these data to run the model,
-together with observations of GPP we can also parameterize
+together with observations of GPP we can also calibrate
 <code>pmodel</code> parameters.</p>
 <p>Another two datasets are provided as an example to validate the model
 against leaf traits data, rather than fluxes. Measurements of Vcmax25
 (aggregated over species) for 72 sites from Atkin et al. 2015 are given
 in <code>p_model_validation_vcmax25</code> and the corresponding forcing
-for the pmodel is given in <code>p_model_drivers_vcmax25</code>. Since
+for the P-model is given in <code>p_model_drivers_vcmax25</code>. Since
 leaf traits are only measured once per site, the forcing used is a
 single year of average climate (the average measurements between 2001
 and 2015 on each day of the year).</p>
@@ -186,8 +188,8 @@ and 2015 on each day of the year).</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> ANBG              <span style="color: #949494;">&lt;tibble [1 × 2]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Alto Tajo NP_Arid <span style="color: #949494;">&lt;tibble [1 × 2]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 62 more rows</span></span></span></code></pre></div>
-<p>For the remainder of this vignette, we will use the flux datasets.
-The workflow is exactly the same for leaf traits data.</p>
+<p>For the remainder of this vignette, we will use the GPP flux
+datasets. The workflow is exactly the same for leaf traits data.</p>
 <p>To get your raw data into the structure used within
 <code>rsofun</code>, please see R packages <a href="https://github.com/geco-bern/ingestr" class="external-link">ingestr</a> and <a href="https://github.com/geco-bern/FluxDataKit" class="external-link">FluxDataKit</a>.</p>
 </div>
@@ -205,9 +207,7 @@ results matching the input drivers.</p>
 <span><span class="va">params_modl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    kphio           <span class="op">=</span> <span class="fl">0.09423773</span>,</span>
 <span>    soilm_par_a     <span class="op">=</span> <span class="fl">0.33349283</span>,</span>
-<span>    soilm_par_b     <span class="op">=</span> <span class="fl">1.45602286</span>,</span>
-<span>    tau_acclim_tempstress <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>    par_shape_tempstress  <span class="op">=</span> <span class="fl">0.0</span></span>
+<span>    soilm_par_b     <span class="op">=</span> <span class="fl">1.45602286</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># run the model for these parameters</span></span>
@@ -267,52 +267,48 @@ dataset we must first specify an optimization strategy and settings, as
 well as a cost function and parameter ranges.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">settings</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  method              <span class="op">=</span> <span class="st">"bayesiantools"</span>,</span>
-<span>  metric              <span class="op">=</span> <span class="fu"><a href="../reference/create_cost_rmse_pmodel.html">create_cost_rmse_pmodel</a></span><span class="op">(</span></span>
-<span>                          params_modl <span class="op">=</span> <span class="va">params_modl</span>, <span class="co"># fix param values</span></span>
-<span>                          setup <span class="op">=</span> <span class="st">'BRC'</span>,</span>
-<span>                          method <span class="op">=</span> <span class="st">'BayesianTools'</span>,</span>
-<span>                          target <span class="op">=</span> <span class="st">'gpp'</span></span>
-<span>                          <span class="op">)</span>,</span>
+<span>  method              <span class="op">=</span> <span class="st">"GenSA"</span>,</span>
+<span>  metric              <span class="op">=</span> <span class="va">cost_rmse_pmodel</span>,</span>
 <span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    sampler <span class="op">=</span> <span class="st">"DEzs"</span>,</span>
-<span>    settings <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>      burnin <span class="op">=</span> <span class="fl">500</span>,</span>
-<span>      iterations <span class="op">=</span> <span class="fl">1500</span></span>
-<span>    <span class="op">)</span><span class="op">)</span>,</span>
+<span>    maxit <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
 <span>  par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    kphio <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>lower<span class="op">=</span><span class="fl">0.04</span>, upper<span class="op">=</span><span class="fl">0.2</span>, init <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>By default <code>rsofun</code> supports both optimization using the
 <code>GenSA</code> and <code>BayesianTools</code> packages. The above
-statement provides settings for a <code>BayesianTools</code> approach
-using the DEzs sampler. For this example the burnin and iterations are
-kept artificially low. In a real scenario you will have to increase
-these values orders of magnitude. Keep in mind that optimization
-routines rely on a cost function, which, depending on its structure
-influences parameter selection. A limited set of cost functions is
-provided but the model structure is transparent and custom cost
-functions can be easily written. More details can be found in the
-“Parameter calibration and cost functions” vignette.</p>
+statement provides settings for a <code>GenSA</code> optimization
+approach. For this example the maximum number of iterations is kept
+artificially low. In a real scenario you will have to increase this
+value orders of magnitude. Keep in mind that optimization routines rely
+on a cost function, which, depending on its structure influences
+parameter selection. A limited set of cost functions is provided but the
+model structure is transparent and custom cost functions can be easily
+written. More details can be found in the “Parameter calibration and
+cost functions” vignette.</p>
 <p>In addition starting values and ranges are provided for the free
 parameters in the model. Free parameters include, <code>kphio</code>,
-<code>soilm_par_a</code>, <code>soilm_par_b</code>,
-<code>tau_acclim_tempstress</code> and
-<code>par_shape_tempstress</code>. Be mindful that with newer versions
-of <code>rsofun</code> additional parameters might be introduced, so
-re-check vignettes and model descriptions when updating existing
-code.</p>
+<code>soilm_par_a</code> and <code>soilm_par_b</code>. Be mindful that
+with newer versions of <code>rsofun</code> additional parameters might
+be introduced, so re-check vignettes and model descriptions when
+updating existing code.</p>
 <p>With all settings defined the optimization function
 <code><a href="../reference/calib_sofun.html">calib_sofun()</a></code> can be called with driver data and
-observations specified.</p>
+observations specified. Extra arguments for the cost function (like
+which parameters should be free, what variable should be used as target
+to compute the root mean squared error (RMSE) and previous values for
+the parameters that aren’t calibrated, which are needed to run the
+P-model).</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># calibrate the model and</span></span>
-<span><span class="co"># optimize free parameters</span></span>
+<code class="sourceCode R"><span><span class="co"># calibrate the model and optimize free parameters</span></span>
 <span><span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calib_sofun.html">calib_sofun</a></span><span class="op">(</span></span>
 <span>    drivers <span class="op">=</span> <span class="va">p_model_drivers</span>,  </span>
 <span>    obs <span class="op">=</span> <span class="va">p_model_validation</span>,</span>
-<span>    settings <span class="op">=</span> <span class="va">settings</span></span>
+<span>    settings <span class="op">=</span> <span class="va">settings</span>,</span>
+<span>    <span class="co"># extra arguments passed to the cost function:</span></span>
+<span>    setup <span class="op">=</span> <span class="st">"BRC"</span>,           <span class="co"># calibrate only kphio</span></span>
+<span>    targets <span class="op">=</span> <span class="st">"gpp"</span>,         <span class="co"># define target variable GPP</span></span>
+<span>    par_fixed <span class="op">=</span> <span class="va">params_modl</span>  <span class="co"># fix non-calibrated parameters to previous values</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>When successful the optimized parameters can be used to run
 subsequent modelling efforts, in this case slightly improving the model
