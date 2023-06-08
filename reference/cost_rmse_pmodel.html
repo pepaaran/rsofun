@@ -51,7 +51,7 @@ the root mean squared error (RMSE)."><meta name="twitter:card" content="summary"
       <a href="../articles/prepare_forcing.html">Prepare forcing</a>
     </li>
     <li>
-      <a href="../articles/sensitivity_analysis.html">Sensitivity analysis</a>
+      <a href="../articles/sensitivity_analysis.html">Sensitivity analysis and calibration interpretation</a>
     </li>
   </ul></li>
 <li>
@@ -90,7 +90,9 @@ the root mean squared error (RMSE).</p>
 <span>  <span class="va">drivers</span>,</span>
 <span>  <span class="va">targets</span>,</span>
 <span>  par_fixed <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  target_weights <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  target_weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  parallel <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ncores <span class="op">=</span> <span class="fl">2</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -130,6 +132,17 @@ parameters are passed on to <code><a href="runread_pmodel_f.html">runread_pmodel
 the RMSE if using several targets. By default (<code>target_weights = NULL</code>)
 the RMSE is computed separately for each target and then averaged. The provided
 weights are used to compute a weighted average of RMSE across targets.</p></dd>
+
+
+<dt>parallel</dt>
+<dd><p>A logical specifying whether simulations are to be parallelised
+(sending data from a certain number of sites to each core). Defaults to
+<code>FALSE</code>.</p></dd>
+
+
+<dt>ncores</dt>
+<dd><p>An integer specifying the number of cores used for parallel
+computing. Defaults to 2.</p></dd>
 
 </dl></div>
     <div id="value">

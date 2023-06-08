@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sensitivity analysis • rsofun</title>
+<title>Sensitivity analysis and calibration interpretation • rsofun</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/apple-touch-icon.png">
@@ -18,7 +18,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,400;0,700;1,300;1,400&amp;display=swap" rel="stylesheet">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><!-- geco --><link href="../geco.css" rel="stylesheet">
-<meta property="og:title" content="Sensitivity analysis">
+<meta property="og:title" content="Sensitivity analysis and calibration interpretation">
 <meta property="og:description" content="rsofun">
 <meta name="twitter:card" content="summary">
 <!-- Mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js" async integrity="sha256-nlrDrBTHxJJlDDX22AS33xYI1OJHnGMDhiYMSe2U0e0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/config/TeX-AMS-MML_HTMLorMML.js" async integrity="sha256-4zys9A4hMQmtq2EUL+JRoXc0NZi8jVJMzb8onewOaSQ=" crossorigin="anonymous"></script>
@@ -75,7 +75,7 @@
       <a href="../articles/prepare_forcing.html">Prepare forcing</a>
     </li>
     <li>
-      <a href="../articles/sensitivity_analysis.html">Sensitivity analysis</a>
+      <a href="../articles/sensitivity_analysis.html">Sensitivity analysis and calibration interpretation</a>
     </li>
   </ul>
 </li>
@@ -101,7 +101,8 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Sensitivity analysis</h1>
+      <h1 data-toc-skip>Sensitivity analysis and calibration
+interpretation</h1>
                         <h4 data-toc-skip class="author">Josefa
 Arán</h4>
             
@@ -248,11 +249,11 @@ computationally cheaper than running the parameter calibration.</p>
 <span>  scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>The analysis evaluates the variability of the target function,
 i.e. the log-likelihood, for several points across the parameter space.
-Statistics <span class="math inline">\(\mu *\)</span> and <span class="math inline">\(\sigma\)</span> measure the average of the
-absolute differences between these log-likelihood values and their
-standard deviation, respectively. The higher the value of these
-statistics for a given parameter, the more influential the parameter
-is.</p>
+It is an approximation of the derivatives of the log-likelihood with
+respect to the model parameters. Statistics <span class="math inline">\(\mu *\)</span> and <span class="math inline">\(\sigma\)</span> can be interpreted as the mean
+absolute derivative and the standard deviation of the derivative,
+respectively. The higher the value of these statistics for a given
+parameter, the more influential the parameter is.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># summarise the morris output</span></span>
 <span><span class="va">morrisOut.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -279,6 +280,23 @@ is.</p>
 <span>    legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.95</span><span class="op">)</span>, legend.justification <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.95</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="sensitivity_analysis_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;"></p>
+<p>The outcome of the Morris sensitivity analysis depends strongly on
+the choice of parameter ranges and how parameters interact with each
+other in the underlying model. In this example, we constrained the
+parameters based on their physical meaning
+(e.g. <code>soilm_betao</code> should be in <code>[0,1]</code>) and the
+site FR-Pue where the data is coming from (e.g. <code>kphio_par_b</code>
+around 25<span class="math inline">\(^{o}\)</span>C). When observing the
+figure above, we notice that parameters <code>kphio_par_a</code> and
+<code>kphio_par_b</code> have a high impact on the model fit (big <span class="math inline">\(\mu *\)</span>), but also this dependence of GPP
+on the two parameters changes across the parameter space (big <span class="math inline">\(\sigma\)</span>). This happens because they
+interact in the temperature dependence function for the quantum yield
+efficiency, and they will probably be hard to calibrate and also require
+data from multiple sites.</p>
+<p>To help you interpret this sensitivity analysis, it may be wise to
+run it several times for different parameter ranges and validation data.
+Note how <code>rd_to_vcmax</code> does not affect GPP, but it would
+actually affect the quality of Vcmax25 predictions.</p>
 </div>
 <div class="section level2">
 <h2 id="interpretation-of-bayesian-calibration-routine">Interpretation of Bayesian calibration routine<a class="anchor" aria-label="anchor" href="#interpretation-of-bayesian-calibration-routine"></a>
