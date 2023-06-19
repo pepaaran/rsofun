@@ -476,8 +476,8 @@ observations (in black). We use the MAP estimates for all calibrated
 parameters to run the P-model and include a 90% credible interval based
 on the assumption that the predicted GPP follows a normal distribution
 with standard deviation <code>err_gpp</code>, which we have also
-estimated. This gives a range that covers the observed GPP in 90% of the
-cases.</p>
+estimated. This gives a range that contains the true GPP in 90% of the
+cases, given the observed data.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot observed and predicted GPP, with a 95% credible interval using err_gpp</span></span>
 <span><span class="va">plot_gpp_error</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/runread_pmodel_f.html">runread_pmodel_f</a></span><span class="op">(</span></span>
