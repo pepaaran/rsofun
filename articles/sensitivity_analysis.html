@@ -167,7 +167,7 @@ the parameter values.</p>
 <span>  kc_jmax            <span class="op">=</span> <span class="fl">0.41</span>,</span>
 <span>  error_gpp          <span class="op">=</span> <span class="fl">0.9</span>         <span class="co"># value from previous simulations</span></span>
 <span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] -56672.71</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] -44804.89</span></span></code></pre></div>
 <p>Some parameters are constrained by their physical interpretation
 (e.g. <code>kphio &gt; 0</code>) and it’s also necessary to provide a
 bounded parameter space for Morris’ method to sample the parameter
@@ -423,14 +423,14 @@ D.B.: Bayesian Data Analysis, 2nd edn. Chapman &amp; Hall, London
 <span><span class="co">#&gt; Potential scale reduction factors:</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;             Point est. Upper C.I.</span></span>
-<span><span class="co">#&gt; kphio             1.04       1.13</span></span>
+<span><span class="co">#&gt; kphio             1.00       1.00</span></span>
 <span><span class="co">#&gt; kphio_par_a       1.01       1.03</span></span>
-<span><span class="co">#&gt; kphio_par_b       1.02       1.07</span></span>
-<span><span class="co">#&gt; err_gpp           1.02       1.07</span></span>
+<span><span class="co">#&gt; kphio_par_b       1.01       1.04</span></span>
+<span><span class="co">#&gt; err_gpp           1.01       1.01</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Multivariate psrf</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; 1.04</span></span></code></pre></div>
+<span><span class="co">#&gt; 1.01</span></span></code></pre></div>
 <p>Finally, the parameter MAP estimates can be derived from the chains
 (that converged) after removing the burnin period. They can be seen,
 next to other statistics, using the <code>summary</code> function from
@@ -444,27 +444,27 @@ the <code>BayesianTools</code> library.</p>
 <span><span class="co">#&gt; # MCMC sampler:  DEzs </span></span>
 <span><span class="co">#&gt; # Nr. Chains:  3 </span></span>
 <span><span class="co">#&gt; # Iterations per chain:  2001 </span></span>
-<span><span class="co">#&gt; # Rejection rate:  0.818 </span></span>
-<span><span class="co">#&gt; # Effective sample size:  1030 </span></span>
-<span><span class="co">#&gt; # Runtime:  175.517  sec. </span></span>
+<span><span class="co">#&gt; # Rejection rate:  0.859 </span></span>
+<span><span class="co">#&gt; # Effective sample size:  884 </span></span>
+<span><span class="co">#&gt; # Runtime:  195.459  sec. </span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt; # Parameters</span></span>
 <span><span class="co">#&gt;             psf    MAP   2.5% median  97.5%</span></span>
-<span><span class="co">#&gt; kphio     1.038  0.036  0.035  0.036  0.036</span></span>
-<span><span class="co">#&gt; kphio_... 1.012 -0.001 -0.002 -0.001 -0.001</span></span>
-<span><span class="co">#&gt; kphio_... 1.021 20.405 19.224 20.513 22.130</span></span>
-<span><span class="co">#&gt; err_gpp   1.023  1.328  1.293  1.331  1.369</span></span>
+<span><span class="co">#&gt; kphio     1.000  0.039  0.038  0.039  0.040</span></span>
+<span><span class="co">#&gt; kphio_... 1.009 -0.002 -0.002 -0.002 -0.001</span></span>
+<span><span class="co">#&gt; kphio_... 1.010 20.059 19.050 20.015 21.359</span></span>
+<span><span class="co">#&gt; err_gpp   1.007  1.230  1.195  1.236  1.268</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ## DIC:  8537.289 </span></span>
+<span><span class="co">#&gt; ## DIC:  7035.39 </span></span>
 <span><span class="co">#&gt; ## Convergence </span></span>
 <span><span class="co">#&gt;  Gelman Rubin multivariate psrf:   </span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt; ## Correlations </span></span>
 <span><span class="co">#&gt;              kphio kphio_par_a kphio_par_b err_gpp</span></span>
-<span><span class="co">#&gt; kphio        1.000      -0.053      -0.065   0.218</span></span>
-<span><span class="co">#&gt; kphio_par_a -0.053       1.000       0.793   0.000</span></span>
-<span><span class="co">#&gt; kphio_par_b -0.065       0.793       1.000   0.051</span></span>
-<span><span class="co">#&gt; err_gpp      0.218       0.000       0.051   1.000</span></span></code></pre></div>
+<span><span class="co">#&gt; kphio        1.000      -0.071      -0.134   0.287</span></span>
+<span><span class="co">#&gt; kphio_par_a -0.071       1.000       0.781  -0.053</span></span>
+<span><span class="co">#&gt; kphio_par_b -0.134       0.781       1.000  -0.005</span></span>
+<span><span class="co">#&gt; err_gpp      0.287      -0.053      -0.005   1.000</span></span></code></pre></div>
 <p>More details on diagnosing MCMC convergence can be found in <a href="https://florianhartig.github.io/BayesianTools/articles/BayesianTools.html#running-mcmc-and-smc-functions" class="external-link">this
 vignette from BayesianTools</a> and <a href="https://theoreticalecology.wordpress.com/2011/12/09/mcmc-chain-analysis-and-convergence-diagnostics-with-coda-in-r/" class="external-link">this
 blogpost</a>.</p>
